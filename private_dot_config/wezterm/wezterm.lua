@@ -3,11 +3,15 @@ local wezterm = require("wezterm")
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
-
--- This is where you actually apply your config choices
-
--- For example, changing the color scheme:
 config.font = wezterm.font("JetBrains Mono")
+
+function SCHEME_FOR_APPEARANCE(appearance)
+	if appearance:find("Dark") then
+		return "Catppuccin Mocha"
+	else
+		return "Catppuccin Latte"
+	end
+end
 
 local action = wezterm.action
 config.keys = {
@@ -17,5 +21,6 @@ config.keys = {
 	{ mods = "CMD", key = "RightArrow", action = action.SendKey({ mods = "CTRL", key = "e" }) },
 	{ mods = "CMD", key = "Backspace", action = action.SendKey({ mods = "CTRL", key = "u" }) },
 }
+config.color_scheme = SCHEME_FOR_APPEARANCE(wezterm.gui.get_appearance())
 -- and finally, return the configuration to wezterm
 return config
